@@ -3,7 +3,7 @@ var messages_array = [];
 var messages_array2 = [];
 var messages_array3 = [];
 
-var rooms = ['room1', 'room2', 'room3'];
+var rooms = ['General', 'Announcements', 'Introductions'];
 
 //check to see if user already exists
 var is_user = function(user) {
@@ -44,15 +44,15 @@ module.exports = function Route(app, server) {
 				users_array.push(data.user); //array instead of object
 				//socket session
 				socket.user = data.user;
-				socket.room = 'room1';
+				socket.room = 'General';
 				//by default add new user to room1
-				socket.join('room1');
+				socket.join('General');
 				// console.log(users_array);
-				socket.broadcast.to('room1').emit('update', {message: data.user +' has connected to this room'});
+				socket.broadcast.to('General').emit('update', {message: data.user +' has connected to this room'});
 
-				socket.emit('updaterooms', rooms, 'room1');
+				socket.emit('updaterooms', rooms, 'General');
 
-				socket.emit("load_messages", {current_user: data.user, messages: messages_array, room: 'room1'} );
+				socket.emit("load_messages", {current_user: data.user, messages: messages_array, room: 'General'} );
 			}
 
 		});
@@ -89,7 +89,7 @@ module.exports = function Route(app, server) {
 		socket.on('disconnect', function(){
 			//remove name from username array
 			// console.log('disconnecting');
-			for(var i=0; i<users_array.length; i++){
+			for(var i=0; i<users_array.length; i++) {
 				if(users_array[i] == socket.user){
 					users_array.splice(i, 1);
 				}
